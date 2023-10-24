@@ -15,8 +15,9 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.4.0",
+        "feather-icons": "^4.29.1",
         "vue": "^3.2.36",
-        "vue-feather-icons": "^5.1.0",
+        "vue-feather": "^2.0.0",
         "vue-loader": "^17.3.0"
     }
 }
