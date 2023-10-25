@@ -1,6 +1,8 @@
 <template>
-  <h1 class="text-2xl text-red-500"> Hello, Vuejs with Laravel and Tailwind css</h1>
   <div class="min-h-screen w-screen bg-gray-200 flex items-center justify-center">
+
+    <NavMenu></NavMenu>
+
     <div class="w-full max-w-md text-center">
       <p class="mb-2 text-gray-700 font-semibold font-sans tracking-wide">List 1</p>
       <draggable group="all-users" :list="users" item-key="id" tag="ul" class="w-full max-w-md" :animation="200" ghost-class="moving-card" filter=".action-button">
@@ -46,12 +48,15 @@
 <script>
 import draggable from 'vuedraggable';
 import UserCard from './components/UserCard.vue';
+import NavMenu from "./components/NavMenu.vue";
+
 let id = 1;
 
 export default {
   components: {
     draggable,
     UserCard,
+    NavMenu,
   },
   data() {
     return {
