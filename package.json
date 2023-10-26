@@ -19,6 +19,7 @@
         "vue": "^3.2.36",
         "vue-feather": "^2.0.0",
         "vue-loader": "^17.3.0",
+        "vue3-click-away": "^1.2.4",
         "vuedraggable": "^4.1.0"
     }
 }
