@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen w-screen bg-gray-200  flex flex-col h-screen">
     <NavMenu></NavMenu>
-    <main class="flex-1 bg-blue-300 w-full h-screen overflow-y-auto flex items-center justify-center">
+    <main class="flex-1 bg-blue-300 w-full h-screen overflow-y-auto overflow-x-scroll">
       <div v-for="column in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 py-3 column-width mr-4">
         <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{ column.title }}</p>
 
@@ -18,7 +18,6 @@
 </template>
 <script>
 import draggable from 'vuedraggable';
-import UserCard from './components/UserCard.vue';
 import TaskCard from './components/TaskCard.vue';
 import NavMenu from "./components/NavMenu.vue";
 
@@ -27,7 +26,6 @@ let id = 1;
 export default {
   components: {
     draggable,
-    UserCard,
     NavMenu,
     TaskCard,
   },
