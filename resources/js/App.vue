@@ -1,53 +1,25 @@
 <template>
-  <div class="min-h-screen w-screen bg-gray-200 flex items-center justify-center">
-
+  <div class="min-h-screen w-screen bg-gray-200  flex flex-col h-screen">
     <NavMenu></NavMenu>
+    <main class="flex-1 bg-blue-300 w-full h-screen overflow-y-auto flex items-center justify-center">
+      <div v-for="column in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 py-3 column-width mr-4">
+        <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{ column.title }}</p>
 
-    <div class="w-full max-w-md text-center">
-      <p class="mb-2 text-gray-700 font-semibold font-sans tracking-wide">List 1</p>
-      <draggable group="all-users" :list="users" item-key="id" tag="ul" class="w-full max-w-md" :animation="200" ghost-class="moving-card" filter=".action-button">
-        <template #item="{ element }">
-          <UserCard :user="element" :key="element.id" @on-edit="onEdit" @on-delete="onDelete">
-          </UserCard>
-        </template>
+        <draggable :list="column.tasks" :animation="200" group="all-tasks" item-key="id" tag="ul" class="w-full max-w-md" ghost-class="moving-card" filter=".action-button">
+          <template #item="{ element }">
 
-        <template #footer>
-          <li class="p-1 mb-3 flex justify-between items-center bg-white shadow rounded-lg">
-            <div class="flex items-center w-full justify-center">
-              <button aria-label="Delete user" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd">
-                <p class="font-semibold font-sans tracking-wide">Adicionar novo usuário</p>
-                <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
-              </button>
-            </div>
-          </li>
-        </template>
-      </draggable>
-    </div>
-    <div class="w-full max-w-md ml-12 text-center">
-      <p class="mb-2 text-gray-700 font-semibold font-sans tracking-wide">List 2</p>
-      <draggable group="all-users" :list="newUsers" item-key="id" tag="ul" class="w-full max-w-md" :animation="200" ghost-class="moving-card" filter=".action-button">
-        <template #item="{ element }">
-          <UserCard :user="element" :key="element.id" @on-edit="onEdit" @on-delete="onDelete">
-          </UserCard>
-        </template>
+            <TaskCard :task="element" :key="element.id" @on-edit="onEdit" @on-delete="onDelete"></TaskCard>
 
-        <template #footer>
-          <li class="p-1 mb-3 flex justify-between items-center bg-white shadow rounded-lg">
-            <div class="flex items-center w-full justify-center">
-              <button aria-label="Delete user" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd">
-                <p class="font-semibold font-sans tracking-wide">Adicionar novo usuário</p>
-                <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
-              </button>
-            </div>
-          </li>
-        </template>
-      </draggable>
-    </div>
+          </template>
+        </draggable>
+      </div>
+    </main>
   </div>
 </template>
 <script>
 import draggable from 'vuedraggable';
 import UserCard from './components/UserCard.vue';
+import TaskCard from './components/TaskCard.vue';
 import NavMenu from "./components/NavMenu.vue";
 
 let id = 1;
@@ -57,9 +29,76 @@ export default {
     draggable,
     UserCard,
     NavMenu,
+    TaskCard,
   },
   data() {
     return {
+      columns: [
+        {
+          title: 'Elaboração',
+          tasks: [
+            {
+              id: id++,
+              title: 'Pedro da silva',
+              date: '1 sep',
+              tags: [
+                'Urgente',
+                'Youtube'
+              ]
+            },
+            {
+              id: id++,
+              title: 'Carlos Jacinto',
+              date: 'today',
+              tags: [
+                'Youtube'
+              ]
+            },
+            {
+              id: id++,
+              title: 'Kappa',
+              date: 'yestarday',
+              tags: [
+                'Tiktok'
+              ]
+            },
+          ]
+        },
+        {
+          title: 'Em execução',
+          tasks: [
+            {
+              id: id++,
+              title: 'Gilberto Alberto',
+              date: '1 aug',
+              tags: [
+                'Facabook'
+              ]
+            },
+            {
+              id: id++,
+              title: 'João pedro',
+              date: 'today',
+              tags: [
+                'Youtube'
+              ]
+            },
+            {
+              id: id++,
+              title: 'Karlos com K',
+              date: 'yestarday',
+              tags: [
+                'Youtube'
+              ]
+            },
+          ]
+        },
+        {
+          title: 'Finalizados',
+          tasks: [
+          ]
+        }
+      ],
       users: [
         {
           id: id++,
@@ -92,14 +131,15 @@ export default {
     }
   },
   methods: {
-    onEdit(user) {
-      alert(`Editing ${user.name}`);
+    onEdit(task) {
+      alert(`Editing ${task.title}`);
     },
-    onDelete(user) {
-      this.users = this.users.filter((u) => u.id !== user.id);
+    onDelete(task) {
+      // this.users = this.users.filter((u) => u.id !== user.id);
+      alert(`Deleting ${task.title}`);
     },
     onAdd() {
-      this.users.push({ id: id++, name: "NOVO USER", avatar: "https://robohash.org/Novo" })
+      // this.users.push({ id: id++, name: "NOVO USER", avatar: "https://robohash.org/Novo" })
     }
   }
 }
