@@ -18,6 +18,8 @@
 <script>
 
 export default {
+    emits: ['on-edit', 'on-delete', 'show-context-menu'],
+
     props: {
         task: {
             type: Object,
