@@ -18,7 +18,7 @@
             </template>
         </Draggable>
     </div>
-    <TaskListContextMenu :show-context-menu="contextMenu" @close-context-menu="() => { }" v-click-away="closeContextMenu"></TaskListContextMenu>
+    <TaskListContextMenu :show-context-menu="contextMenu" v-click-away="closeContextMenu"></TaskListContextMenu>
 
     <!--
             <div class="flex flex-1 justify-end" v-if="showButtons">
