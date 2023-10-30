@@ -26,3 +26,4 @@
 - [ ] Login system with social logins
 - [ ] Store Lists and Cards with your tags etc
 - [ ] Change pages from Vue (maybe use inertia to speed up this project)
+- [ ] Use MongoDB to save JSON objects from lists.
