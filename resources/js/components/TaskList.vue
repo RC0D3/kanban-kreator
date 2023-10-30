@@ -1,15 +1,15 @@
 <template>
-    <div v-for="column in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 pt-2 pb-1 column-width mr-4 overflow-hidden flex flex-col">
+    <div v-for="(column, index) in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 pt-2 pb-1 column-width mr-4 overflow-hidden flex flex-col">
         <p class="text-gray-700 font-semibold font-sans tracking-wide text-md self-center pb-2">{{ column.title }}</p>
         <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
         <Draggable :list="column.tasks" :animation="200" group="all-tasks" item-key="id" tag="ul" class="max-w-md h-full no-scrollbar overflow-y-auto" ghost-class="moving-card" filter=".action-button">
-            <template #item="{ element }">
-                <TaskCard :task="element" :key="element.id" @on-edit="onEdit" @on-delete="onDelete" @show-context-menu="showContextMenu"></TaskCard>
+            <template #item="{ element, index }">
+                <TaskCard :task="element" :key="element.id" @on-edit="onEdit" @on-delete="onDelete" @show-context-menu="showContextMenu" :class="{ active: index == column.tasks.length - 1 }"></TaskCard>
             </template>
         </Draggable>
         <div class="p-1 my-2 flex justify-between items-center bg-white shadow rounded-lg">
             <div class="flex items-center w-full justify-center">
-                <button aria-label="Delete user" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd">
+                <button aria-label="Delete user" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd(index)">
                     <p class="font-semibold font-sans tracking-wide">New Card</p>
                     <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
                 </button>
@@ -36,7 +36,7 @@
 import Draggable from 'vuedraggable'
 import TaskCard from '@/components/TaskCard.vue'
 import TaskListContextMenu from './TaskListContextMenu.vue'
-import { nextTick } from 'vue'
+import { nextTick, computed } from 'vue'
 
 let id = 1;
 
@@ -101,6 +101,22 @@ export default {
                                 'Youtube'
                             ]
                         },
+                        {
+                            id: id++,
+                            title: 'Karlos com K',
+                            date: 'yestarday',
+                            tags: [
+                                'Youtube'
+                            ]
+                        },
+                        {
+                            id: id++,
+                            title: 'Karlos com K',
+                            date: 'yestarday',
+                            tags: [
+                                'Youtube'
+                            ]
+                        },
                     ]
                 },
                 {
@@ -111,6 +127,12 @@ export default {
             ],
             contextMenu: false,
             contextTask: {},
+            scrollList: false
+        }
+    },
+    provide() {
+        return {
+            scrollList: computed(() => this.scrollList)
         }
     },
     components: {
@@ -133,9 +155,20 @@ export default {
                 }
             })
         },
-        onAdd() {
-            // this.users.push({ id: id++, name: "NOVO USER", avatar: "https://robohash.org/Novo" })
-            alert('adiciona ai po')
+        async onAdd(index) {
+            this.columns[index].tasks.push({
+                id: id++,
+                title: 'EDET IDK HOW',
+                date: 'today',
+                tags: [
+                    'TODO'
+                ]
+            })
+            this.scrollList = true
+            await nextTick()
+            this.scrollList = false
+
+
         },
         async showContextMenu(event, task) {
             this.contextMenu = false

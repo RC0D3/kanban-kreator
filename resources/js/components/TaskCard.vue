@@ -8,14 +8,20 @@
 </template>
 
 <script>
+import { nextTick } from 'vue';
 
 export default {
     emits: ['show-context-menu'],
-
+    inject: ['scrollList'],
     props: {
         task: {
             type: Object,
             default: () => ({}),
+        }
+    },
+    async mounted() {
+        if (this.$el.classList.contains('active')) {
+            this.$el.scrollIntoView()
         }
     },
 };
