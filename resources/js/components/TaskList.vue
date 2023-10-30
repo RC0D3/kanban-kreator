@@ -1,22 +1,20 @@
 <template>
-    <div v-for="column in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 py-3 column-width mr-4 overflow-hidden">
-        <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{ column.title }}</p>
+    <div v-for="column in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 pt-2 pb-1 column-width mr-4 overflow-hidden flex flex-col">
+        <p class="text-gray-700 font-semibold font-sans tracking-wide text-md self-center pb-2">{{ column.title }}</p>
+        <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
         <Draggable :list="column.tasks" :animation="200" group="all-tasks" item-key="id" tag="ul" class="max-w-md h-full no-scrollbar overflow-y-auto" ghost-class="moving-card" filter=".action-button">
             <template #item="{ element }">
                 <TaskCard :task="element" :key="element.id" @on-edit="onEdit" @on-delete="onDelete" @show-context-menu="showContextMenu"></TaskCard>
             </template>
-
-            <template #footer>
-                <li class="p-1 mb-3 flex justify-between items-center bg-white shadow rounded-lg">
-                    <div class="flex items-center w-full justify-center">
-                        <button aria-label="Delete user" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd">
-                            <p class="font-semibold font-sans tracking-wide">New Card</p>
-                            <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
-                        </button>
-                    </div>
-                </li>
-            </template>
         </Draggable>
+        <div class="p-1 my-2 flex justify-between items-center bg-white shadow rounded-lg">
+            <div class="flex items-center w-full justify-center">
+                <button aria-label="Delete user" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd">
+                    <p class="font-semibold font-sans tracking-wide">New Card</p>
+                    <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
+                </button>
+            </div>
+        </div>
     </div>
     <TaskListContextMenu :show-context-menu="contextMenu" :task="contextTask" v-click-away="closeContextMenu" @on-delete="onDelete"></TaskListContextMenu>
 
