@@ -11,7 +11,7 @@
 - Card
   - [ ] Add
   - [ ] Delete
-  - [ ] Remove dblclick edit/delete from card
+  - [X] Remove dblclick edit/delete from card
   - [ ] Edit Card props
 - List
   - [ ] Add
