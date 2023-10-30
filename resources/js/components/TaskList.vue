@@ -18,7 +18,7 @@
             </template>
         </Draggable>
     </div>
-    <TaskListContextMenu :show-context-menu="contextMenu" v-click-away="closeContextMenu"></TaskListContextMenu>
+    <TaskListContextMenu :show-context-menu="contextMenu" :task="contextTask" v-click-away="closeContextMenu" @on-delete="onDelete"></TaskListContextMenu>
 
     <!--
             <div class="flex flex-1 justify-end" v-if="showButtons">
@@ -112,6 +112,7 @@ export default {
                 }
             ],
             contextMenu: false,
+            contextTask: {},
         }
     },
     components: {
@@ -124,8 +125,15 @@ export default {
             alert(`Editing ${task.title}`);
         },
         onDelete(task) {
-            // this.users = this.users.filter((u) => u.id !== user.id);
-            alert(`Deleting ${task.title}`);
+            this.closeContextMenu()
+            if (!confirm(`Tem certeza que deseja deletar o card "${task.title}"`))
+                return;
+
+            this.columns.forEach((column) => {
+                if (column.tasks.some(t => t.id == task.id)) {
+                    column.tasks = column.tasks.filter((t) => t.id != task.id)
+                }
+            })
         },
         onAdd() {
             // this.users.push({ id: id++, name: "NOVO USER", avatar: "https://robohash.org/Novo" })
@@ -135,6 +143,8 @@ export default {
             this.contextMenu = false
             await nextTick()
             this.contextMenu = true
+
+            this.contextTask = task;
         },
         closeContextMenu() {
             this.contextMenu = false

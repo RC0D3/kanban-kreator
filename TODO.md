@@ -10,7 +10,7 @@
 - [ ] Tags for every item
 - Card
   - [ ] Add
-  - [ ] Delete
+  - [X] Delete
   - [X] Remove dblclick edit/delete from card
   - [ ] Edit Card props
 - List
