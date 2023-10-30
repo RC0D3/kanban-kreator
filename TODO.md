@@ -4,6 +4,7 @@
 
 ## Front
 
+- [ ] Separate Dark and White theme
 - [ ] Login page with social media logins
 - [ ] Component for logged user
 - [ ] Search with ctrl+k with modal like vue docs or tailwind with lateral menu
