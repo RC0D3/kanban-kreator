@@ -25,6 +25,16 @@
             </div>
         </div>
     </div>
+    <div class="bg-gray-100 rounded-lg px-3 pt-2 pb-1 column-width mr-4 overflow-hidden h-fit">
+        <div class="p-1 flex justify-between items-center">
+            <div class="flex items-center w-full justify-center">
+                <button aria-label="Add Card" class="flex action-button focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAddList">
+                    <p class="font-semibold font-sans tracking-wide">New List</p>
+                    <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
+                </button>
+            </div>
+        </div>
+    </div>
     <TaskListContextMenu :show-context-menu="contextMenu" :task="contextTask" v-click-away="closeContextMenu" @on-delete="onDelete"></TaskListContextMenu>
 </template>
 
@@ -191,6 +201,9 @@ export default {
             if (confirm(`Are you sure to delete "${this.columns[index].title}"?`)) {
                 this.columns.splice(index, 1);
             }
+        },
+        onAddList() {
+            this.columns.push({ title: 'Double click to edit', tasks: [] })
         }
     }
 }

@@ -15,7 +15,7 @@
   - [X] Remove dblclick edit/delete from card
   - [ ] Edit Card props
 - List
-  - [ ] Add
+  - [X] Add
   - [X] Delete (hover show to delete)
   - [X] Edit double click
 
