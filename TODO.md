@@ -16,7 +16,8 @@
   - [ ] Edit Card props
 - List
   - [ ] Add
-  - [ ] Delete (hover show to delete or edit)
+  - [ ] Delete (hover show to delete)
+  - [X] Edit double click
 
 ### Future
 

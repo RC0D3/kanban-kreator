@@ -1,6 +1,18 @@
 <template>
-    <div v-for="(column, index) in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 pt-2 pb-1 column-width mr-4 overflow-hidden flex flex-col">
-        <p class="text-gray-700 font-semibold font-sans tracking-wide text-md self-center pb-2">{{ column.title }}</p>
+    <div v-for="(column, index) in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 pt-2 pb-1 column-width mr-4 overflow-hidden flex flex-col relative">
+        <div class="pb-2 flex w-full justify-center">
+            <p class="text-gray-700 font-semibold font-sans tracking-wide text-md" @dblclick="editTitle($event)" @focusout="closeEdit($event, index)">{{ column.title }}</p>
+        </div>
+        <div v-show="false" class="absolute right-0 px-3">
+            <button aria-label="Edit user" class="action-button focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600" @click="$emit('on-edit', task)">
+                <vue-feather type="edit"></vue-feather>
+            </button>
+            <button aria-label="Delete user" class="action-button focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600" @click="$emit('on-delete', task)">
+                <vue-feather type="trash-2"></vue-feather>
+            </button>
+        </div>
+
+
         <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
         <Draggable :list="column.tasks" :animation="200" group="all-tasks" item-key="id" tag="ul" class="max-w-md h-full no-scrollbar overflow-y-auto" ghost-class="moving-card" filter=".action-button">
             <template #item="{ element, index }">
@@ -17,18 +29,6 @@
         </div>
     </div>
     <TaskListContextMenu :show-context-menu="contextMenu" :task="contextTask" v-click-away="closeContextMenu" @on-delete="onDelete"></TaskListContextMenu>
-
-    <!--
-            <div class="flex flex-1 justify-end" v-if="showButtons">
-                <button aria-label="Edit user" class="action-button focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600" @click="$emit('on-edit', task)">
-                    <vue-feather type="edit"></vue-feather>
-                </button>
-                <button aria-label="Delete user" class="action-button focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600" @click="$emit('on-delete', task)">
-                    <vue-feather type="trash-2"></vue-feather>
-                </button>
-            </div>
-
-        -->
 </template>
 
 <script>
@@ -179,6 +179,16 @@ export default {
         },
         closeContextMenu() {
             this.contextMenu = false
+        },
+        editTitle(event) {
+            event.target.setAttribute('contenteditable', true)
+        },
+        closeEdit(event, colIndex) {
+            event.target.setAttribute('contenteditable', false)
+            if (event.target.textContent != "")
+                this.columns[colIndex].title = event.target.textContent
+            else
+                event.target.textContent = this.columns[colIndex].title
         }
     }
 }
