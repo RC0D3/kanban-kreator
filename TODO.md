@@ -10,14 +10,14 @@
 - [ ] Search with ctrl+k with modal like vue docs or tailwind with lateral menu
 - [ ] Tags for every item
 - Card
-  - [X] Add with scroll to
-  - [X] Delete
-  - [X] Remove dblclick edit/delete from card
+  - [x] Add with scroll to
+  - [x] Delete
+  - [x] Remove dblclick edit/delete from card
   - [ ] Edit Card props
 - List
-  - [X] Add
-  - [X] Delete (hover show to delete)
-  - [X] Edit double click
+  - [x] Add
+  - [x] Delete (hover show to delete)
+  - [x] Edit double click
 
 ### Future
 

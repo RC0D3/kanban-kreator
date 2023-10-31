@@ -1,20 +1,19 @@
 <template>
-  <div class="min-h-screen w-screen bg-gray-200  flex flex-col h-screen">
+  <div class="flex h-screen min-h-screen w-screen flex-col bg-gray-200">
     <NavMenu></NavMenu>
-    <main class="flex-1 flex bg-blue-300 overflow-y-auto overflow-x-auto p-5">
+    <main class="flex flex-1 overflow-x-auto overflow-y-auto bg-blue-300 p-5">
       <TaskList></TaskList>
     </main>
   </div>
 </template>
 <script>
-import NavMenu from '@/components/NavMenu.vue'
-import TaskList from '@/components/TaskList.vue'
-
+import NavMenu from "@/components/NavMenu.vue";
+import TaskList from "@/components/TaskList.vue";
 
 export default {
   components: {
     NavMenu,
-    TaskList
+    TaskList,
   },
-}
+};
 </script>
