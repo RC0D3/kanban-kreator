@@ -8,15 +8,7 @@
       <li>
         <a
           href="javascript:void(0);"
-          @click.prevent="this.$emit('on-edit', task)"
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-          >Edit</a
-        >
-      </li>
-      <li>
-        <a
-          href="javascript:void(0);"
-          @click.prevent="this.$emit('on-delete', task)"
+          @click.prevent="this.$emit('on-delete')"
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >Delete</a
         >
@@ -29,7 +21,7 @@
 import { useMouse } from "@/mouse.js";
 
 export default {
-  props: ["showContextMenu", "task"],
+  props: ["showContextMenu"],
   emit: ["on-delete", "on-edit"],
   setup() {
     const { x, y } = useMouse();
