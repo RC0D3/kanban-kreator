@@ -1,13 +1,10 @@
 <template>
     <div v-for="(column, index) in columns" :key="columns.id" class="bg-gray-100 rounded-lg px-3 pt-2 pb-1 column-width mr-4 overflow-hidden flex flex-col relative">
-        <div class="pb-2 flex w-full justify-center">
+        <div class="pb-2 flex w-full justify-center showEdit">
             <p class="text-gray-700 font-semibold font-sans tracking-wide text-md" @dblclick="editTitle($event)" @focusout="closeEdit($event, index)">{{ column.title }}</p>
         </div>
-        <div v-show="false" class="absolute right-0 px-3">
-            <button aria-label="Edit user" class="action-button focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600" @click="$emit('on-edit', task)">
-                <vue-feather type="edit"></vue-feather>
-            </button>
-            <button aria-label="Delete user" class="action-button focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600" @click="$emit('on-delete', task)">
+        <div class="absolute right-0 px-3 edit">
+            <button aria-label="Delete list" class="action-button focus:outline-none focus:shadow-outline text-red-500 hover:text-red-600" @click="deleteList(index)">
                 <vue-feather type="trash-2"></vue-feather>
             </button>
         </div>
@@ -21,7 +18,7 @@
         </Draggable>
         <div class="p-1 my-2 flex justify-between items-center bg-white shadow rounded-lg">
             <div class="flex items-center w-full justify-center">
-                <button aria-label="Delete user" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd(index)">
+                <button aria-label="Add Card" class="flex action-button p-1 focus:outline-none focus:shadow-outline text-gray-400 hover:text-gray-700" @click="onAdd(index)">
                     <p class="font-semibold font-sans tracking-wide">New Card</p>
                     <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
                 </button>
@@ -189,6 +186,11 @@ export default {
                 this.columns[colIndex].title = event.target.textContent
             else
                 event.target.textContent = this.columns[colIndex].title
+        },
+        deleteList(index) {
+            if (confirm(`Are you sure to delete "${this.columns[index].title}"?`)) {
+                this.columns.splice(index, 1);
+            }
         }
     }
 }
@@ -202,5 +204,14 @@ export default {
 
 .moving-card {
     @apply opacity-50 bg-gray-100 border border-blue-500;
+}
+
+.showEdit:hover+.edit,
+.edit:hover {
+    visibility: visible;
+}
+
+.edit {
+    visibility: hidden;
 }
 </style>
