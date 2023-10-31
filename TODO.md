@@ -21,6 +21,7 @@
 ### Future
 
 - [ ] Make date for every card to show in calendar (full calendar)
+- [ ] Modal for delete
 
 ## Back
 
