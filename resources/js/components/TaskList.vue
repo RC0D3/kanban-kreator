@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <TaskListContextMenu :show-context-menu="contextMenu" :task="contextTask" v-click-away="closeContextMenu" @on-delete="onDelete"></TaskListContextMenu>
+    <TaskListContextMenu :show-context-menu="contextMenu" :task="contextTask" v-click-away="closeContextMenu" @on-delete="onDelete" @on-edit="onEdit"></TaskListContextMenu>
 </template>
 
 <script>
@@ -149,6 +149,7 @@ export default {
     },
     methods: {
         onEdit(task) {
+            this.closeContextMenu()
             alert(`Editing ${task.title}`);
         },
         onDelete(task) {

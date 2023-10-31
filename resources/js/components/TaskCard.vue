@@ -19,8 +19,8 @@ export default {
             default: () => ({}),
         }
     },
-    async mounted() {
-        if (this.$el.classList.contains('active')) {
+    mounted() {
+        if (this.scrollList && this.$el.classList.contains('active')) {
             this.$el.scrollIntoView()
         }
     },
