@@ -38,7 +38,6 @@
         <TaskCard
           :task="element"
           :key="element.id"
-          @on-delete="onDelete"
           @show-context-menu="showContextMenu"
           @on-edit="onEdit"
           :class="{ active: index == column.tasks.length - 1 }"
@@ -120,7 +119,6 @@
         <div class="px-6 py-6 lg:px-8">
           <h3
             class="mb-4 text-xl font-medium text-gray-900 dark:text-white"
-            v-bind="contextTask.title"
           ></h3>
           <form class="space-y-6" action="#">
             <div>
@@ -128,7 +126,6 @@
                 rows="4"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="Write your comments here..."
-                v-model="contextTask.body"
               ></textarea>
             </div>
             <button
@@ -257,26 +254,32 @@ export default {
   },
   methods: {
     onEdit(task) {
-      this.showEditModal = true;
-      this.closeContextMenu();
-      // this.tempTask = { ...task };
-      this.contextTask = task;
+      // this.showEditModal = true;
+      // this.closeContextMenu();
+      // // this.tempTask = { ...task };
+      // this.contextTask = task;
     },
     closeModal() {
-      this.showEditModal = false;
+      // this.showEditModal = false;
     },
     closeModalAndSave() {
       // this.contextTask = this.tempTask;
       this.closeModal();
     },
-    onDelete(task) {
+    onDelete() {
       this.closeContextMenu();
-      if (!confirm(`Tem certeza que deseja deletar o card "${task.title}"`))
+      if (
+        !confirm(
+          `Tem certeza que deseja deletar o card "${this.contextTask.title}"`,
+        )
+      )
         return;
 
       this.columns.forEach((column) => {
-        if (column.tasks.some((t) => t.id == task.id)) {
-          column.tasks = column.tasks.filter((t) => t.id != task.id);
+        if (column.tasks.some((t) => t.id == this.contextTask.id)) {
+          column.tasks = column.tasks.filter(
+            (t) => t.id != this.contextTask.id,
+          );
         }
       });
     },
@@ -291,11 +294,10 @@ export default {
       await nextTick();
       this.scrollList = false;
     },
-    async showContextMenu(event, task) {
+    async showContextMenu(task) {
       this.contextMenu = false;
       await nextTick();
       this.contextMenu = true;
-
       this.contextTask = task;
     },
     closeContextMenu() {

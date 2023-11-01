@@ -9,6 +9,5 @@ import VueClickAway from "vue3-click-away";
 const app = createApp(App);
 
 app.use(VueClickAway);
-app.config.unwrapInjectedRef = true;
 app.mount("#app");
 customElements.define("vue-feather", defineCustomElement(VueFeather));

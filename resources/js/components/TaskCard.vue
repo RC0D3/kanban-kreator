@@ -1,7 +1,7 @@
 <template>
   <li
     class="mb-3 flex cursor-move flex-col justify-between rounded-lg bg-white p-4 shadow"
-    @contextmenu.prevent="$emit('show-context-menu', $event, task)"
+    @contextmenu.prevent="$emit('show-context-menu', task)"
     @dblclick="$emit('onEdit', task)"
   >
     <div class="flex w-full items-center">
