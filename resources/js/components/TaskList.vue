@@ -5,13 +5,13 @@
     class="column-width relative mr-4 flex flex-col overflow-hidden rounded-lg bg-gray-100 px-3 pb-1 pt-2"
   >
     <div class="showEdit flex w-full justify-center pb-2">
-      <p
+      <Editable
+        tag="p"
         class="text-md font-sans font-semibold tracking-wide text-gray-700"
-        @dblclick="editTitle($event)"
-        @focusout="closeEdit($event, index)"
+        @value-changed="(value) => (this.columns[index].title = value)"
       >
         {{ column.title }}
-      </p>
+      </Editable>
     </div>
     <div class="edit absolute right-0 px-3">
       <button
@@ -117,16 +117,34 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="px-6 py-6 lg:px-8">
-          <h3
+          <Editable
+            tag="h3"
             class="mb-4 text-xl font-medium text-gray-900 dark:text-white"
-          ></h3>
+            ref="titletask"
+          >
+          </Editable>
           <form class="space-y-6" action="#">
             <div>
               <textarea
                 rows="4"
                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="Write your comments here..."
+                ref="bodytask"
               ></textarea>
+            </div>
+            <div>
+              <label
+                for="first_name"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >Tags</label
+              >
+              <input
+                type="text"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                placeholder="WIP, Urgent"
+                :value="contextTask.tags"
+                ref="tagtask"
+              />
             </div>
             <button
               type="button"
@@ -151,8 +169,9 @@
 
 <script>
 import Draggable from "vuedraggable";
-import TaskCard from "@/components/TaskCard.vue";
+import TaskCard from "./TaskCard.vue";
 import TaskListContextMenu from "./TaskListContextMenu.vue";
+import Editable from "./Editable.vue";
 import { nextTick, computed } from "vue";
 
 let id = 1;
@@ -236,10 +255,6 @@ export default {
       contextTask: {},
       scrollList: false,
       showEditModal: false,
-      tempTask: {
-        type: Object,
-        default: () => ({}),
-      },
     };
   },
   provide() {
@@ -251,19 +266,26 @@ export default {
     Draggable,
     TaskCard,
     TaskListContextMenu,
+    Editable,
   },
   methods: {
     onEdit(task) {
-      // this.showEditModal = true;
-      // this.closeContextMenu();
-      // // this.tempTask = { ...task };
-      // this.contextTask = task;
+      this.showEditModal = true;
+      this.closeContextMenu();
+      this.contextTask = task;
+      this.$refs.bodytask.value = this.contextTask.body;
+      this.$refs.tagtask.value = this.contextTask.tags;
+      this.$refs.titletask.$el.textContent = this.contextTask.title;
     },
     closeModal() {
-      // this.showEditModal = false;
+      this.showEditModal = false;
     },
     closeModalAndSave() {
-      // this.contextTask = this.tempTask;
+      this.contextTask.body = this.$refs.bodytask.value;
+      this.contextTask.tags = this.$refs.tagtask.value
+        .split(",")
+        .map((i) => i.trim());
+      this.contextTask.title = this.$refs.titletask.$el.textContent;
       this.closeModal();
     },
     onDelete() {
@@ -302,15 +324,6 @@ export default {
     },
     closeContextMenu() {
       this.contextMenu = false;
-    },
-    editTitle(event) {
-      event.target.setAttribute("contenteditable", true);
-    },
-    closeEdit(event, colIndex) {
-      event.target.setAttribute("contenteditable", false);
-      if (event.target.textContent != "")
-        this.columns[colIndex].title = event.target.textContent;
-      else event.target.textContent = this.columns[colIndex].title;
     },
     deleteList(index) {
       if (confirm(`Are you sure to delete "${this.columns[index].title}"?`)) {
