@@ -14,7 +14,7 @@
   - [x] Delete
   - [x] Remove dblclick edit/delete from card
   - [x] Edit Card props
-  - [ ] Edit on add (maybe modal?)
+  - [x] Edit on add (modal)
 - List
   - [x] Add
   - [x] Delete (hover show to delete)
