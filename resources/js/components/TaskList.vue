@@ -1,85 +1,91 @@
 <template>
-  <div
-    v-for="(column, index) in columns"
-    :key="columns.id"
-    class="column-width relative mr-4 flex flex-col overflow-hidden rounded-lg bg-gray-100 px-3 pb-1 pt-2"
+  <Draggable
+    :list="columns"
+    :animation="200"
+    group="all-lits"
+    item-key="id"
+    tag="main"
+    class="flex flex-1 overflow-x-auto overflow-y-auto bg-blue-300 p-5"
+    ghost-class="moving-card"
+    filter=".action-button"
   >
-    <div class="showEdit flex w-full justify-center pb-2">
-      <Editable
-        tag="p"
-        class="text-md font-sans font-semibold tracking-wide text-gray-700"
-        @value-changed="(value) => (this.columns[index].title = value)"
+    <template #item="{ element, index }">
+      <div
+        class="column-width relative mr-4 flex flex-col overflow-hidden rounded-lg bg-gray-100 px-3 pb-1 pt-2"
       >
-        {{ column.title }}
-      </Editable>
-    </div>
-    <div class="edit absolute right-0 px-3">
-      <button
-        aria-label="Delete list"
-        class="action-button focus:shadow-outline text-red-500 hover:text-red-600 focus:outline-none"
-        @click="deleteList(index)"
-      >
-        <vue-feather type="trash-2"></vue-feather>
-      </button>
-    </div>
+        <div class="showEdit flex w-full justify-center pb-2">
+          <Editable
+            tag="p"
+            class="text-md font-sans font-semibold tracking-wide text-gray-700"
+            @value-changed="(value) => (this.columns[index].title = value)"
+          >
+            {{ element.title }}
+          </Editable>
+        </div>
+        <div class="edit absolute right-0 px-3">
+          <button
+            aria-label="Delete list"
+            class="action-button focus:shadow-outline text-red-500 hover:text-red-600 focus:outline-none"
+            @click="deleteList(index)"
+          >
+            <vue-feather type="trash-2"></vue-feather>
+          </button>
+        </div>
 
-    <hr class="h-px border-0 bg-gray-200 dark:bg-gray-700" />
-    <Draggable
-      :list="column.tasks"
-      :animation="200"
-      group="all-tasks"
-      item-key="id"
-      tag="ul"
-      class="no-scrollbar h-full max-w-md overflow-y-auto"
-      ghost-class="moving-card"
-      filter=".action-button"
-    >
-      <template #item="{ element, index }">
-        <TaskCard
-          :task="element"
-          :key="element.id"
+        <hr class="h-px border-0 bg-gray-200 dark:bg-gray-700" />
+        <TaskListCard
+          :list="element"
           @show-context-menu="showContextMenu"
           @on-edit="onEdit"
-          :class="{ active: index == column.tasks.length - 1 }"
-        ></TaskCard>
-      </template>
-    </Draggable>
-    <div
-      class="my-2 flex items-center justify-between rounded-lg bg-white p-1 shadow"
-    >
-      <div class="flex w-full items-center justify-center">
-        <button
-          aria-label="Add Card"
-          class="action-button focus:shadow-outline flex p-1 text-gray-400 hover:text-gray-700 focus:outline-none"
-          @click="onAdd(index)"
+        ></TaskListCard>
+        <div
+          class="my-2 flex items-center justify-between rounded-lg bg-white p-1 shadow"
         >
-          <p class="font-sans font-semibold tracking-wide">New Card</p>
-          <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
-        </button>
+          <div class="flex w-full items-center justify-center">
+            <button
+              aria-label="Add Card"
+              class="action-button focus:shadow-outline flex p-1 text-gray-400 hover:text-gray-700 focus:outline-none"
+              @click="onAdd(index)"
+            >
+              <p class="font-sans font-semibold tracking-wide">New Card</p>
+              <vue-feather
+                type="plus"
+                class="relative top-1 ml-1"
+              ></vue-feather>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div
-    class="column-width mr-4 h-fit overflow-hidden rounded-lg bg-gray-100 px-3 pb-1 pt-2"
-  >
-    <div class="flex items-center justify-between p-1">
-      <div class="flex w-full items-center justify-center">
-        <button
-          aria-label="Add Card"
-          class="action-button focus:shadow-outline flex text-gray-400 hover:text-gray-700 focus:outline-none"
-          @click="onAddList"
-        >
-          <p class="font-sans font-semibold tracking-wide">New List</p>
-          <vue-feather type="plus" class="relative top-1 ml-1"></vue-feather>
-        </button>
+    </template>
+    <template #footer>
+      <div
+        class="column-width mr-4 h-fit overflow-hidden rounded-lg bg-gray-100 px-3 pb-1 pt-2"
+      >
+        <div class="flex items-center justify-between p-1">
+          <div class="flex w-full items-center justify-center">
+            <button
+              aria-label="Add Card"
+              class="action-button focus:shadow-outline flex text-gray-400 hover:text-gray-700 focus:outline-none"
+              @click="onAddList"
+            >
+              <p class="font-sans font-semibold tracking-wide">New List</p>
+              <vue-feather
+                type="plus"
+                class="relative top-1 ml-1"
+              ></vue-feather>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </Draggable>
+
   <TaskListContextMenu
     :show-context-menu="contextMenu"
     v-click-away="closeContextMenu"
     @on-delete="onDelete"
   ></TaskListContextMenu>
+
   <!-- Main modal -->
   <div
     v-show="showEditModal"
@@ -169,7 +175,7 @@
 
 <script>
 import Draggable from "vuedraggable";
-import TaskCard from "./TaskCard.vue";
+import TaskListCard from "./TaskListCard.vue";
 import TaskListContextMenu from "./TaskListContextMenu.vue";
 import Editable from "./Editable.vue";
 import { nextTick, computed } from "vue";
@@ -264,7 +270,7 @@ export default {
   },
   components: {
     Draggable,
-    TaskCard,
+    TaskListCard,
     TaskListContextMenu,
     Editable,
   },
@@ -309,6 +315,7 @@ export default {
       this.columns[index].tasks.push({
         id: id++,
         title: "EDET IDK HOW",
+        body: "",
         date: "today",
         tags: ["TODO"],
       });

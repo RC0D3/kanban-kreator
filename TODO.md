@@ -19,7 +19,7 @@
   - [x] Add
   - [x] Delete (hover show to delete)
   - [x] Edit double click
-  - [ ] Drag lists
+  - [x] Drag lists
 
 ### Future
 
