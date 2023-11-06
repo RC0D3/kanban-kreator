@@ -314,14 +314,19 @@ export default {
     async onAdd(index) {
       this.columns[index].tasks.push({
         id: id++,
-        title: "EDET IDK HOW",
+        title: "Edit",
         body: "",
         date: "today",
-        tags: ["TODO"],
+        tags: [],
       });
       this.scrollList = true;
       await nextTick();
       this.scrollList = false;
+
+      setTimeout(() => {
+        this.showEditModal = true;
+      }, 0); // PERIPÉCIAS DO JAVASCRIPTO
+      this.onEdit(this.columns[index].tasks.at(-1));
     },
     async showContextMenu(task) {
       this.contextMenu = false;
