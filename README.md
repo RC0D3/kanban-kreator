@@ -4,9 +4,7 @@ Project for learning purposes, using Laravel, VueJS and TailwindCSS
 
 ## Preview
 
-> No online preview yet
-
-![Project preview](./preview.png)
+[Link to live preview](http://129.148.50.95/kanban-kreator)
 
 ## TODO
 
